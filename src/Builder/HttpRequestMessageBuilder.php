@@ -7,6 +7,7 @@ namespace Eva\Http\Builder;
 use Eva\Http\HttpMethodsEnum;
 use Eva\Http\Message\Request;
 use Eva\Http\Message\RequestInterface;
+use Eva\HttpKernel\HttpProtocolVersionEnum;
 
 class HttpRequestMessageBuilder implements HttpRequestMessageBuilderInterface
 {
@@ -16,7 +17,7 @@ class HttpRequestMessageBuilder implements HttpRequestMessageBuilderInterface
     protected null|array $query = null;
     protected string $url;
     protected HttpMethodsEnum $method;
-    protected string $protocolVersion = '1.1';
+    protected HttpProtocolVersionEnum $protocolVersion = HttpProtocolVersionEnum::HTTP_1_1;
 
     public function addHeaders(array $headers): static
     {
@@ -65,6 +66,13 @@ class HttpRequestMessageBuilder implements HttpRequestMessageBuilderInterface
         return $this;
     }
 
+    public function setProtocolVersion(HttpProtocolVersionEnum $httpProtocolVersionEnum): static
+    {
+        $this->protocolVersion = $httpProtocolVersionEnum;
+
+        return $this;
+    }
+
     protected function buildBody(): null|string
     {
         if (null !== $this->body) {
@@ -102,6 +110,6 @@ class HttpRequestMessageBuilder implements HttpRequestMessageBuilderInterface
         $this->headers = [];
         $this->query = null;
         unset($this->url, $this->method);
-        $this->protocolVersion = '1.1';
+        $this->protocolVersion = HttpProtocolVersionEnum::HTTP_1_1;
     }
 }

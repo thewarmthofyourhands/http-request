@@ -11,4 +11,5 @@ interface RequestParserInterface
 {
     public static function parseBody(RequestInterface $request): mixed;
     public static function parseUri(RequestInterface $request): UriInterface;
+    public static function parseParams(RequestInterface $request): null|array;
 }

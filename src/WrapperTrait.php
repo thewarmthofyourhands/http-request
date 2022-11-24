@@ -37,6 +37,6 @@ trait WrapperTrait
         return $this->parseResponse($response);
     }
 
-    abstract protected function preRequest(RequestInterface $request): void;
-    abstract protected function postRequest(RequestInterface $request, ResponseInterface $response): void;
+    protected function preRequest(RequestInterface $request): void {}
+    protected function postRequest(RequestInterface $request, ResponseInterface $response): void {}
 }

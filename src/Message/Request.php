@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Eva\Http\Message;
 
 use Eva\Http\HttpMethodsEnum;
+use Eva\HttpKernel\HttpProtocolVersionEnum;
 
 class Request extends Message implements RequestInterface
 {
@@ -13,7 +14,7 @@ class Request extends Message implements RequestInterface
         protected readonly string $uri,
         array $headers = [],
         null|string $body = null,
-        string $protocolVersion = '1.1',
+        HttpProtocolVersionEnum $protocolVersion = HttpProtocolVersionEnum::HTTP_1_1,
     ) {
         parent::__construct($headers, $body, $protocolVersion);
     }

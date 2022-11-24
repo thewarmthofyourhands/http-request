@@ -15,7 +15,7 @@ class JsonRequestMessageBuilder extends HttpRequestMessageBuilder
      */
     protected function buildBody(): null|string
     {
-        if ($this->body !== null) {
+        if (null !== $this->body) {
             return json_encode($this->body);
         }
 

@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Eva\Http\Message;
 
+use Eva\HttpKernel\HttpProtocolVersionEnum;
+
 class Response extends Message implements ResponseInterface
 {
     public function __construct(
         protected readonly int $statusCode,
         array $headers = [],
         null|string $body = null,
-        string $protocolVersion = '1.1',
+        HttpProtocolVersionEnum $protocolVersion = HttpProtocolVersionEnum::HTTP_1_1,
     ) {
         parent::__construct($headers, $body, $protocolVersion);
     }

@@ -6,6 +6,7 @@ namespace Eva\Http\Builder;
 
 use Eva\Http\Message\Response;
 use Eva\Http\Message\ResponseInterface;
+use Eva\HttpKernel\HttpProtocolVersionEnum;
 
 class HttpResponseMessageBuilder implements HttpResponseMessageBuilderInterface
 {
@@ -13,7 +14,7 @@ class HttpResponseMessageBuilder implements HttpResponseMessageBuilderInterface
         protected array $headers = [],
         protected null|array $body = null,
         protected int $statusCode = 200,
-        protected string $protocolVersion = '1.1',
+        protected HttpProtocolVersionEnum $protocolVersion = HttpProtocolVersionEnum::HTTP_1_1,
     ) {}
 
     public function addBody(null|array $body): static
@@ -41,9 +42,9 @@ class HttpResponseMessageBuilder implements HttpResponseMessageBuilderInterface
         return $this;
     }
 
-    public function setProtocolVersion(string $protocolVersion): static
+    public function setProtocolVersion(HttpProtocolVersionEnum $httpProtocolVersionEnum): static
     {
-        $this->protocolVersion = $protocolVersion;
+        $this->protocolVersion = $httpProtocolVersionEnum;
 
         return $this;
     }

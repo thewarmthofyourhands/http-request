@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Eva\Http\Builder;
 
 use Eva\Http\HttpMethodsEnum;
+use Eva\HttpKernel\HttpProtocolVersionEnum;
 
 interface HttpRequestMessageBuilderInterface extends RequestMessageBuilderInterface
 {
@@ -13,4 +14,5 @@ interface HttpRequestMessageBuilderInterface extends RequestMessageBuilderInterf
     public function addBody(array $body): static;
     public function addUrl(string $url): static;
     public function addMethod(HttpMethodsEnum $method): static;
+    public function setProtocolVersion(HttpProtocolVersionEnum $httpProtocolVersionEnum): static;
 }

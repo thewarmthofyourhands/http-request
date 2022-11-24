@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Eva\Http\Message;
 
+use Eva\HttpKernel\HttpProtocolVersionEnum;
+
 class Message implements MessageInterface
 {
     public function __construct(
         protected readonly array $headers = [],
         protected readonly null|string $body = null,
-        protected readonly string $protocolVersion = '1.1',
+        protected HttpProtocolVersionEnum $protocolVersion = HttpProtocolVersionEnum::HTTP_1_1,
     ) {}
 
     public function getHeaders(): array
@@ -27,7 +29,7 @@ class Message implements MessageInterface
         return $this->body;
     }
 
-    public function getProtocolVersion(): string
+    public function getProtocolVersion(): HttpProtocolVersionEnum
     {
         return $this->protocolVersion;
     }
