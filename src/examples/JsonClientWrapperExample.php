@@ -10,7 +10,7 @@ use Eva\Http\ClientWrapper;
 use Eva\Http\HttpMethodsEnum;
 use Eva\Http\Message\RequestInterface;
 use Eva\Http\Message\ResponseInterface;
-use Lilith\Http\Parser\JsonResponseParser;
+use Eva\Http\Parser\JsonResponseParser;
 
 class JsonClientWrapperExample extends ClientWrapper
 {
@@ -35,8 +35,7 @@ class JsonClientWrapperExample extends ClientWrapper
             ->addUrl(static::BASE_URL)
             ->addQuery(static::DEFAULT_QUERY)
             ->addHeaders(static::DEFAULT_HEADERS)
-            ->addBody(static::DEFAULT_BODY)
-        ;
+            ->addBody(static::DEFAULT_BODY);
     }
 
     protected function completeDefaultValues(): void
@@ -54,8 +53,7 @@ class JsonClientWrapperExample extends ClientWrapper
                 'email' => 'example@example.com',
                 'password' => '12345678',
             ])
-            ->create()
-        ;
+            ->build();
 
         return $this->request($requestMessage);
     }

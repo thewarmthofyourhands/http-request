@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lilith\Http\Message;
+namespace Eva\Http\Message;
 
 interface UriInterface
 {
@@ -11,7 +11,7 @@ interface UriInterface
     public function getPort(): null|string;
     public function getUser(): null|string;
     public function getPass(): null|string;
-    public function getPath(): string;
+    public function getPath(): null|string;
     public function getQuery(): null|string;
     public function getFragment(): null|string;
 }

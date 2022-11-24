@@ -21,4 +21,15 @@ class HttpRequestParser implements RequestParserInterface
     {
         return new Uri($request->getUri());
     }
+
+    public static function parseParams(RequestInterface $request): null|array
+    {
+        if ($query = static::parseUri($request)->getQuery()) {
+            parse_str($query, $params);
+
+            return $params;
+        }
+
+        return null;
+    }
 }

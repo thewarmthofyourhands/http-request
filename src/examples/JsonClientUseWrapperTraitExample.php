@@ -27,8 +27,7 @@ class JsonClientUseWrapperTraitExample extends AbstractClientWrapper
             ->addUrl(static::BASE_URL)
             ->addQuery(static::DEFAULT_QUERY)
             ->addHeaders(static::DEFAULT_HEADERS)
-            ->addBody(static::DEFAULT_BODY)
-        ;
+            ->addBody(static::DEFAULT_BODY);
     }
 
     protected function completeDefaultValues(): void
@@ -46,8 +45,7 @@ class JsonClientUseWrapperTraitExample extends AbstractClientWrapper
                 'email' => 'example@example.com',
                 'password' => '12345678',
             ])
-            ->create()
-        ;
+            ->build();
 
         return $this->request($requestMessage);
     }

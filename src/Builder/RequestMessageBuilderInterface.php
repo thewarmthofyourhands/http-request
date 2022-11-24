@@ -8,6 +8,6 @@ use Eva\Http\Message\RequestInterface;
 
 interface RequestMessageBuilderInterface
 {
-    public function create(): RequestInterface;
+    public function build(): RequestInterface;
     public function clear(): void;
 }

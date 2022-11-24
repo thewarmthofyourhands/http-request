@@ -2,24 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Lilith\Http\Builder;
+namespace Eva\Http\Builder;
 
-use Lilith\Http\Message\Response;
-use Lilith\Http\Message\ResponseInterface;
+use Eva\Http\Message\Response;
+use Eva\Http\Message\ResponseInterface;
 
 class HttpResponseMessageBuilder implements HttpResponseMessageBuilderInterface
 {
     public function __construct(
         protected array $headers = [],
         protected null|array $body = null,
-        protected null|array $files = null,
         protected int $statusCode = 200,
         protected string $protocolVersion = '1.1',
     ) {}
 
     public function addBody(null|array $body): static
     {
-        $this->body += $body;
+        if (null === $this->body) {
+            $this->body = $body;
+        } else {
+            $this->body += $body;
+        }
 
         return $this;
     }
@@ -27,13 +30,6 @@ class HttpResponseMessageBuilder implements HttpResponseMessageBuilderInterface
     public function addHeaders(array $headers): static
     {
         $this->headers += $headers;
-
-        return $this;
-    }
-
-    public function addFiles(array $files): static
-    {
-        $this->files += $files;
 
         return $this;
     }
@@ -52,13 +48,30 @@ class HttpResponseMessageBuilder implements HttpResponseMessageBuilderInterface
         return $this;
     }
 
+    protected function buildBody(): null|string
+    {
+        if (null !== $this->body) {
+            return http_build_query($this->body);
+        }
+
+        return null;
+    }
+
     public function build(): ResponseInterface
     {
         return new Response(
             $this->statusCode,
             $this->headers,
-            http_build_query($this->body),
+            $this->buildBody(),
             $this->protocolVersion
         );
+    }
+
+    public function clear(): void
+    {
+        $this->statusCode = 200;
+        $this->protocolVersion = '1.1';
+        $this->body = null;
+        $this->headers = [];
     }
 }

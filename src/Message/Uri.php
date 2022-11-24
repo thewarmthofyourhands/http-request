@@ -38,9 +38,9 @@ class Uri implements UriInterface
         return $this->uri['pass'] ?? null;
     }
 
-    public function getPath(): string
+    public function getPath(): null|string
     {
-        return $this->uri['path'];
+        return $this->uri['path'] ?? null;
     }
 
     public function getQuery(): null|string

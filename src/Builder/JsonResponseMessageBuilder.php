@@ -8,14 +8,14 @@ use JsonException;
 
 use function Eva\Common\Functions\json_encode;
 
-class JsonRequestMessageBuilder extends HttpRequestMessageBuilder
+class JsonResponseMessageBuilder extends HttpResponseMessageBuilder
 {
     /**
      * @throws JsonException
      */
     protected function buildBody(): null|string
     {
-        if ($this->body !== null) {
+        if (null !== $this->body) {
             return json_encode($this->body);
         }
 

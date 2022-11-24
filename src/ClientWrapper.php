@@ -28,7 +28,6 @@ class ClientWrapper extends AbstractClientWrapper
     protected function completeBaseValues(): void {}
     protected function completeDefaultValues(): void {}
 
-    //@TODO Сделать связывание дефолт параметров под билдер для авторизации через коллбеки
     protected function request(RequestInterface $request): array
     {
         $response = $this->sendRequest($request);
@@ -38,6 +37,6 @@ class ClientWrapper extends AbstractClientWrapper
 
     protected function parseResponse(ResponseInterface $response): array
     {
-        return $this->responseParser->parse($response);
+        return $this->responseParser->parseBody($response);
     }
 }

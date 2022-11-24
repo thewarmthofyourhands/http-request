@@ -27,28 +27,33 @@ class HttpRequestMessageBuilder implements HttpRequestMessageBuilderInterface
 
     public function addBody(array $body): static
     {
-        $this->body += $body;
-
-        return $this;
-    }
-
-    public function addFiles(array $files): static
-    {
-        $this->files += $files;
+        if (null === $this->body) {
+            $this->body = $body;
+        } else {
+            $this->body += $body;
+        }
 
         return $this;
     }
 
     public function addQuery(array $query): static
     {
-        $this->query += $query;
+        if (null === $this->query) {
+            $this->query = $query;
+        } else {
+            $this->query += $query;
+        }
 
         return $this;
     }
 
     public function addUrl(string $url): static
     {
-        $this->url .= $url;
+        if (isset($this->url)) {
+            $this->url .= $url;
+        } else {
+            $this->url = $url;
+        }
 
         return $this;
     }
@@ -60,24 +65,31 @@ class HttpRequestMessageBuilder implements HttpRequestMessageBuilderInterface
         return $this;
     }
 
-    public function create(): RequestInterface
+    protected function buildBody(): null|string
     {
-        $method = $this->method;
+        if (null !== $this->body) {
+            return http_build_query($this->body);
+        }
+
+        return null;
+    }
+
+    protected function buildUrl(): string
+    {
         $url = $this->url;
-        $body = $this->body;
 
         if ($this->query !== null) {
             $url .= '?' . http_build_query($this->query);
         }
 
-        if ($this->body !== null) {
-            $body = http_build_query($this->body);
-        }
+        return $url;
+    }
 
-//        if ($this->files !== null) {
-//            //@TODO multiple/form-data
-//        }
-
+    public function build(): RequestInterface
+    {
+        $method = $this->method;
+        $url = $this->buildUrl();
+        $body = $this->buildBody();
         $requestMessage = new Request($method, $url, $this->headers, $body, $this->protocolVersion);
         $this->clear();
 
@@ -87,7 +99,6 @@ class HttpRequestMessageBuilder implements HttpRequestMessageBuilderInterface
     public function clear(): void
     {
         $this->body = null;
-        $this->files = null;
         $this->headers = [];
         $this->query = null;
         unset($this->url, $this->method);

@@ -20,12 +20,12 @@ trait WrapperTrait
         $this->completeBaseValues();
     }
 
-    abstract protected function completeBaseValues(): void;
-    abstract protected function completeDefaultValues(): void;
+    protected function completeBaseValues(): void {}
+    protected function completeDefaultValues(): void {}
 
     protected function parseResponse(ResponseInterface $response): array
     {
-        return $this->responseParser->parse($response);
+        return $this->responseParser->parseBody($response);
     }
 
     protected function request(RequestInterface $request): array
