@@ -6,7 +6,7 @@ namespace Eva\Http\Builder;
 
 use Eva\Http\Message\Response;
 use Eva\Http\Message\ResponseInterface;
-use Eva\HttpKernel\HttpProtocolVersionEnum;
+use Eva\Http\HttpProtocolVersionEnum;
 
 class HttpResponseMessageBuilder implements HttpResponseMessageBuilderInterface
 {

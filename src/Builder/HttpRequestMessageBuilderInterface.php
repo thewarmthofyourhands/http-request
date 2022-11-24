@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Eva\Http\Builder;
 
 use Eva\Http\HttpMethodsEnum;
-use Eva\HttpKernel\HttpProtocolVersionEnum;
+use Eva\Http\HttpProtocolVersionEnum;
 
 interface HttpRequestMessageBuilderInterface extends RequestMessageBuilderInterface
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Eva\HttpKernel;
+namespace Eva\Http;
 
 enum HttpProtocolVersionEnum: string
 {

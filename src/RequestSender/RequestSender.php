@@ -9,7 +9,7 @@ use Eva\Http\Message\Response;
 use Eva\Http\Message\ResponseInterface;
 use Eva\Http\HttpMethodsEnum;
 use Eva\Http\Parser\HttpRequestParser;
-use Eva\HttpKernel\HttpProtocolVersionEnum;
+use Eva\Http\HttpProtocolVersionEnum;
 use RuntimeException;
 
 class RequestSender implements RequestSenderInterface
