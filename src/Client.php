@@ -17,6 +17,6 @@ class Client implements ClientInterface
 
     final public function sendRequest(RequestInterface $request): ResponseInterface
     {
-        return $this->requestSender->sendSocket($request);
+        return $this->requestSender->send($request);
     }
 }
