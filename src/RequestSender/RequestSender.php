@@ -125,23 +125,23 @@ class RequestSender implements RequestSenderInterface
 
     protected function readBodyChunk($socket, null|float $blockLength = null): string
     {
-        if (null === $blockLength) {
-            $preamble = fgets($socket, 1024);
-            $blockLength = (float) hexdec(trim($preamble));
-        }
-
         $body = '';
+
+        $preamble = fgets($socket, 1024);
+        $blockLength = (float) hexdec(trim($preamble));
+
+        if ($blockLength === 0.0) {
+            return $body;
+        }
 
         for($i = 1.0; $i <= $blockLength; $i++) {
             $body .= fgetc($socket);
         }
 
+        fgets($socket, 2);
         $preamble = fgets($socket, 1024);
         $blockLength = (float) hexdec(trim($preamble));
-
-        if (0.0 !== $blockLength) {
-            $body .= $this->readBodyChunk($socket, $blockLength);
-        }
+        $body .= $this->readBodyChunk($socket, $blockLength);
 
         return $body;
     }
