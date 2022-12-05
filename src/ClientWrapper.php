@@ -22,7 +22,6 @@ class ClientWrapper extends AbstractClientWrapper
         protected ResponseParserInterface $responseParser,
     ) {
         parent::__construct($client);
-        $this->completeBaseValues();
     }
 
     protected function completeBaseValues(): void {}

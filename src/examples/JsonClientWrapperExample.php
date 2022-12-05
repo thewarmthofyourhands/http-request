@@ -45,6 +45,7 @@ class JsonClientWrapperExample extends ClientWrapper
 
     public function addUser(): array
     {
+        $this->completeBaseValues();
         $this->completeDefaultValues();
         $requestMessage = $this->httpRequestMessageBuilder
             ->addMethod(HttpMethodsEnum::POST)

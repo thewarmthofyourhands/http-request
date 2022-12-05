@@ -30,7 +30,7 @@ class RequestSender implements RequestSenderInterface
     protected function extractHttpData(RequestInterface $request): array
     {
         $uriData = HttpRequestParser::parseUri($request);
-        $fullPath = $uriData->getPath().$uriData->getFragment().$uriData->getQuery() ?: '/';
+        $fullPath = $uriData->getPath().$uriData->getFragment() . ($uriData->getQuery() ? '?' . $uriData->getQuery() : '');
         $host = $uriData->getHost();
         $method = $request->getMethod()->value;
         $headers = $request->getHeaders();
@@ -47,7 +47,7 @@ class RequestSender implements RequestSenderInterface
 
         $message .= "Connection: Close\r\n";
 
-        if (in_array($request->getBody(), [
+        if (in_array($request->getMethod(), [
             HttpMethodsEnum::PATCH,
             HttpMethodsEnum::POST,
             HttpMethodsEnum::PUT
