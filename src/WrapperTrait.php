@@ -23,12 +23,12 @@ trait WrapperTrait
     protected function completeBaseValues(): void {}
     protected function completeDefaultValues(): void {}
 
-    protected function parseResponse(ResponseInterface $response): array
+    protected function parseResponse(ResponseInterface $response): mixed
     {
         return $this->responseParser->parseBody($response);
     }
 
-    protected function request(RequestInterface $request): array
+    protected function request(RequestInterface $request): mixed
     {
         $this->preRequest($request);
         $response = $this->sendRequest($request);

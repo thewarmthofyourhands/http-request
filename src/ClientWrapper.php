@@ -28,14 +28,14 @@ class ClientWrapper extends AbstractClientWrapper
     protected function completeBaseValues(): void {}
     protected function completeDefaultValues(): void {}
 
-    protected function request(RequestInterface $request): array
+    protected function request(RequestInterface $request): mixed
     {
         $response = $this->sendRequest($request);
 
         return $this->parseResponse($response);
     }
 
-    protected function parseResponse(ResponseInterface $response): array
+    protected function parseResponse(ResponseInterface $response): mixed
     {
         return $this->responseParser->parseBody($response);
     }
