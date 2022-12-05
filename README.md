@@ -14,6 +14,14 @@ The library consists of:
 4. A simple Client and a wrapper either for simple native requests or for creating full-fledged Request services
 (Examples are in the example folder)
 
+
+### INSTALLATION
+1. add "minimum-stability": "dev" in your composer file
+2. install
+````
+composer require "eva/http-request"
+````
+
 ### Simple example:
 ````
 <?php
