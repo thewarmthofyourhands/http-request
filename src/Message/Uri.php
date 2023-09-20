@@ -23,7 +23,7 @@ class Uri implements UriInterface
         return $this->uri['host'];
     }
 
-    public function getPort(): null|string
+    public function getPort(): null|int
     {
         return $this->uri['port'] ?? null;
     }
