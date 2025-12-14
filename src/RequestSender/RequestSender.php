@@ -36,10 +36,11 @@ class RequestSender implements RequestSenderInterface
         $headers = $request->getHeaders();
         $protocolVersion = $request->getProtocolVersion()->value;
         $isSsl = $uriData->getScheme() === 'https';
-        $port = (int) ($uriData->getPort() ?? ($isSsl ? 443 : 80));
+        $port = $uriData->getPort() ?? ($isSsl ? 443 : 80);
+        $hostHeaderValue = $host . (in_array($port, [443, 80], true) ? '' : ':' . $port);
 
         $message =  "$method $fullPath HTTP/$protocolVersion\r\n";
-        $message .= "Host: $host\r\n";
+        $message .= "Host: $hostHeaderValue\r\n";
 
         foreach ($headers as $header => $headerValue) {
             $message .= "$header: $headerValue\r\n";
@@ -79,11 +80,11 @@ class RequestSender implements RequestSenderInterface
 
         $httpStatusString = fgets($socket, 1024);
         $httpStatusString = trim($httpStatusString);
-        preg_match('|HTTP/(\d\.\d)\s+(\d+)\s+.*|', $httpStatusString, $match);
+        preg_match('|HTTP/(\d\.\d)\s+(\d+)\s*.*|', $httpStatusString, $match);
         [$httpStatus, $httpProtocol, $httpStatusCode] = $match;
         $headerList = [];
 
-        while (!feof($socket)) {
+        while (false === feof($socket)) {
             $responseLine = fgets($socket, 1024);
 
             if ($responseLine === "\r\n") {
@@ -103,6 +104,11 @@ class RequestSender implements RequestSenderInterface
                 static fn (string $headerValue, string $header): bool => strtolower($header) === 'content-length',
                 ARRAY_FILTER_USE_BOTH,
             ));
+            $transferEncoding = current(array_filter(
+                $headerList,
+                static fn (string $headerValue, string $header): bool => strtolower($header) === 'transfer-encoding',
+                ARRAY_FILTER_USE_BOTH,
+            ));
 
             if ($contentLength) {
                 for($i = 1; $i <= $contentLength; $i++) {
@@ -113,8 +119,16 @@ class RequestSender implements RequestSenderInterface
                     throw new RuntimeException('Content-length is empty, try to use HTTP 1.1');
                 }
 
-                //http 1.1 chunked transfer encoding
-                $body = $this->readBodyChunk($socket);
+                $transferEncodingHeader = false === $transferEncoding ? null : $transferEncoding;
+
+                if ($transferEncodingHeader !== null) {
+                    //http 1.1 chunked transfer encoding
+                    $body = $this->readBodyChunk($socket);
+                } else {
+                    while (!feof($socket)) {
+                        $body .= fgetc($socket);
+                    }
+                }
             }
 
             fclose($socket);
